@@ -11,5 +11,8 @@
     "url": "git+https://github.com/yemregumus/fragments.git"
   },
   "author": "REPLACE WITH YOUR NAME",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "prettier": "3.2.1"
+  }
 }
