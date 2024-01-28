@@ -27,6 +27,7 @@ describe('/ health check', () => {
   test('should return correct version, githubUrl, and author in response', async () => {
     const res = await request(app).get('/');
     expect(res.body.author).toEqual(author);
+    console.log(res.body.githubUrl);
     expect(res.body.githubUrl.startsWith('https://github.com/')).toBe(true);
     expect(res.body.version).toEqual(version);
   });
