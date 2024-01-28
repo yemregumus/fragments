@@ -7,10 +7,11 @@ const options = { level: process.env.LOG_LEVEL || 'info' };
 if (options.level === 'debug') {
   // https://github.com/pinojs/pino-pretty
 
-  console.log('===========================================');
+  /*console.log('===========================================');
   console.log('Environment Variables:');
   console.log(process.env);
   console.log('===========================================');
+  */
   options.transport = {
     target: 'pino-pretty',
     options: {

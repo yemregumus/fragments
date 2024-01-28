@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const passport = require('passport');
+const authenticate = require('./auth');
 
 // author and version from our package.json file
 // TODO: make sure you have updated your name in the `author` section
@@ -27,9 +29,6 @@ app.use(helmet());
 // Use CORS middleware so we can make requests across origins
 app.use(cors());
 
-// Use gzip/deflate compression middleware
-app.use(compression());
-
 // Define a simple health check route. If the server is running
 // we'll respond with a 200 OK.  If not, the server isn't healthy.
 /*app.get('/', (req, res) => {
@@ -47,6 +46,14 @@ app.use(compression());
   });
 });
 */
+
+// Use gzip/deflate compression middleware
+app.use(compression());
+
+// Set up our passport authentication middleware
+passport.use(authenticate.strategy());
+app.use(passport.initialize());
+
 app.use('/', require('./routes'));
 // Add 404 middleware to handle any requests for resources that can't be found
 app.use((req, res) => {

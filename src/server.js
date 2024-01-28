@@ -5,7 +5,7 @@ const stoppable = require('stoppable');
 
 // Get our logger instance
 const logger = require('./logger');
-
+require('dotenv').config();
 // Get our express app instance
 const app = require('./app');
 
