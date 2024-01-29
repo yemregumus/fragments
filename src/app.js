@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
 const authenticate = require('./auth/basic-auth');
+const response = require('./response');
 
 const logger = require('./logger');
 const pino = require('pino-http')({
@@ -75,13 +76,7 @@ app.use((err, req, res, next) => {
     logger.error({ err }, `Error processing request`);
   }
 
-  res.status(status).json({
-    status: 'error',
-    error: {
-      message,
-      code: status,
-    },
-  });
+  res.status(status).json(response.createErrorResponse(status, message));
 });
 
 // Export our `app` so we can access it in server.js
