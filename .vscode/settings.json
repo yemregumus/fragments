@@ -8,5 +8,6 @@
     "source.fixAll": "explicit"
   },
   "files.eol": "\n",
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "livePreview.defaultPreviewPath": "/coverage/lcov-report/src/app.js.html"
 }
