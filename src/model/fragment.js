@@ -180,7 +180,8 @@ class Fragment {
    */
   get formats() {
     // TODO
-    return [this.type];
+    const { type } = contentType.parse(this.type);
+    return [type];
   }
 
   /**
