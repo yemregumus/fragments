@@ -5,7 +5,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
-const authenticate = require('./auth/basic-auth');
+const authenticate = require('./auth');
 const response = require('./response');
 
 const logger = require('./logger');
@@ -36,13 +36,16 @@ app.use(passport.initialize());
 app.use('/', require('./routes'));
 // Add 404 middleware to handle any requests for resources that can't be found
 app.use((req, res) => {
-  res.status(404).json({
-    status: 'error',
-    error: {
-      message: 'not found',
-      code: 404,
-    },
-  });
+  // Refactor to use response.js functions
+  const errorResponse = response.createErrorResponse(404, 'not found');
+  res.status(errorResponse.error.code).json(errorResponse);
+  // res.status(404).json({
+  //   status: 'error',
+  //   error: {
+  //     message: 'not found',
+  //     code: 404,
+  //   },
+  // });
 });
 
 // Add error-handling middleware to deal with anything else
