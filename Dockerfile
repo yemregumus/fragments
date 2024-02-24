@@ -23,11 +23,14 @@ WORKDIR /site
 # Copy dependencies from the first stage
 COPY --from=dependencies /site /site
 
+# Install Babel and presets
+RUN npm install --save-dev @babel/core @babel/cli @babel/preset-env
+
 # Copy the source code
 COPY . .
 
-# Build the site, creating /build
-RUN npm run build
+# Build the site
+RUN npx babel src -d dist
 
 # Stage 3: Serve the built site
 FROM nginx:1.24.0-alpine
