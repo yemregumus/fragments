@@ -7,11 +7,12 @@ ENV NODE_ENV=production
 # Set working directory
 WORKDIR /site
 
-# Copy package.json and yarn.lock
-COPY package.json yarn.lock ./
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN yarn install
+RUN npm install
+
 
 # Stage 2: Build the site
 FROM node:20.11.1-bullseye AS build
@@ -26,7 +27,7 @@ COPY --from=dependencies /site /site
 COPY . .
 
 # Build the site, creating /build
-RUN yarn build
+RUN npm run build
 
 # Stage 3: Serve the built site
 FROM nginx:1.24.0-alpine
