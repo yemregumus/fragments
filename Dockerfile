@@ -1,40 +1,42 @@
-#This is my first Dockerfile where I learn to dockerize an api
+# Stage 1: Install dependencies
+FROM node:20.11.1-bullseye AS dependencies
 
-FROM node:20.9.0
+# Set environment variables
+ENV NODE_ENV=production
 
-LABEL maintainer="Yunus Emre Gumus <yemregumus83@gmail.com>"
-LABEL description="Fragments node.js microservice"
+# Set working directory
+WORKDIR /site
 
-# We default to use port 8080 in our service
-ENV PORT=8080
+# Copy package.json and yarn.lock
+COPY package.json yarn.lock ./
 
-# Reduce npm spam when installing within Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
-ENV NPM_CONFIG_LOGLEVEL=warn
+# Install dependencies
+RUN yarn install
 
-# Disable colour when run inside Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#color
-ENV NPM_CONFIG_COLOR=false
+# Stage 2: Build the site
+FROM node:20.11.1-bullseye AS build
 
-# Use /app as our working directory
-WORKDIR /app
+# Set working directory
+WORKDIR /site
 
-# Copy the package.json and package-lock.json
-# files into the working dir (/app), using full paths and multiple source
-# files.  All of the files will be copied into the working dir `./app`
-COPY package.json package-lock.json ./
+# Copy dependencies from the first stage
+COPY --from=dependencies /site /site
 
-# Install node dependencies defined in package-lock.json
-RUN npm install
+# Copy the source code
+COPY . .
 
-# Copy src to /app/src/
-COPY ./src ./src
+# Build the site, creating /build
+RUN yarn build
 
-# Copy HTPASSWD file
-COPY ./tests/.htpasswd ./tests/.htpasswd
+# Stage 3: Serve the built site
+FROM nginx:1.24.0-alpine
 
-# Start the container by running our server
-CMD npm start
+# Copy the built site from the build stage
+COPY --from=build /site/build /usr/share/nginx/html
 
-# We run our service on port 8080
-EXPOSE 8080
+# Expose port 80
+EXPOSE 80
+
+# Healthcheck to verify the container is healthy
+HEALTHCHECK --interval=60s --timeout=90s --start-period=10s --retries=3 \
+  CMD curl --fail localhost || exit 1
