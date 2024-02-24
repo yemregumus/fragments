@@ -36,7 +36,7 @@ RUN npx babel src -d dist
 FROM nginx:1.24.0-alpine
 
 # Copy the built site from the build stage
-COPY --from=build /site/build /usr/share/nginx/html
+COPY --from=build /site/dist /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
