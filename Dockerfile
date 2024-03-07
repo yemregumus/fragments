@@ -16,7 +16,8 @@ WORKDIR /site
 # Copy dependencies from the first stage
 COPY --from=dependencies /site /site
 # Install Babel and presets
-RUN npm install --save-dev @babel/core @babel/cli @babel/preset-env
+RUN npm install --save-dev @babel/cli@7.23.9 @babel/preset-env@7.23.9
+
 # Copy the source code
 COPY . .
 # Build the site
