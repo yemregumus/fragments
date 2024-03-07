@@ -68,7 +68,7 @@ jobs:
 
       - name: Build and push
         env:
-          DOCKERHUB_REPO: username/fragments
+          DOCKERHUB_REPO: yemregumus/fragments
           SHA_TAG: sha-${{ github.sha }}
         uses: docker/build-push-action@v4
         with:
