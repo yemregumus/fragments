@@ -46,9 +46,19 @@ function validConversion(contentType, extension) {
 }
 
 module.exports = async (req, res) => {
-  // await Fragment.byId('1234'))
   const idWithExt = req.params.id;
-  let user = crypto.createHash('sha256').update(req.user).digest('hex');
+  let user;
+  try {
+    user = crypto.createHash('sha256').update(req.user).digest('hex');
+  } catch (error) {
+    console.error('Error occurred during user hashing:', error);
+    createErrorResponse(
+      res.status(500).json({
+        message: `Error occurred: ${error.message}`,
+      })
+    );
+    return;
+  }
 
   const idWithExtArray = idWithExt.split('.');
 
@@ -63,12 +73,34 @@ module.exports = async (req, res) => {
     ext = null;
   }
 
-  const idList = await Fragment.byUser(user);
+  let idList;
+  try {
+    idList = await Fragment.byUser(user);
+  } catch (error) {
+    console.error('Error occurred while fetching fragment list:', error);
+    createErrorResponse(
+      res.status(500).json({
+        message: `Error occurred: ${error.message}`,
+      })
+    );
+    return;
+  }
 
   if (idList.includes(id)) {
-    const fragmentObject = await Fragment.byId(user, id);
-    let fragment;
+    let fragmentObject;
+    try {
+      fragmentObject = await Fragment.byId(user, id);
+    } catch (error) {
+      console.error('Error occurred while fetching fragment by id:', error);
+      createErrorResponse(
+        res.status(500).json({
+          message: `Error occurred: ${error.message}`,
+        })
+      );
+      return;
+    }
 
+    let fragment;
     if (fragmentObject instanceof Fragment) {
       fragment = fragmentObject;
     } else {
@@ -82,28 +114,46 @@ module.exports = async (req, res) => {
       });
     }
 
-    if (fragment) {
-      let dataResult = null;
-      if (!ext) {
+    let dataResult = null;
+    if (!ext) {
+      try {
         dataResult = await fragment.getData();
-      } else {
-        if (validConversion(fragment.mimeType, ext)) {
-          dataResult = await fragment.getData();
-        }
-      }
-
-      if (dataResult) {
-        res.setHeader('Content-Type', fragment.mimeType);
-        res.status(200).send(dataResult);
-      } else {
-        const error = 'Conversion is not possible from ' + fragment.mimeType + ' to ' + ext;
+      } catch (error) {
+        console.error('Error occurred while fetching fragment data:', error);
         createErrorResponse(
-          res.status(415).json({
-            code: 415,
-            message: error,
+          res.status(500).json({
+            message: `Error occurred: ${error.message}`,
           })
         );
+        return;
       }
+    } else {
+      if (validConversion(fragment.mimeType, ext)) {
+        try {
+          dataResult = await fragment.getData();
+        } catch (error) {
+          console.error('Error occurred while fetching fragment data:', error);
+          createErrorResponse(
+            res.status(500).json({
+              message: `Error occurred: ${error.message}`,
+            })
+          );
+          return;
+        }
+      }
+    }
+
+    if (dataResult) {
+      res.setHeader('Content-Type', fragment.mimeType);
+      res.status(200).send(dataResult);
+    } else {
+      const error = 'Conversion is not possible from ' + fragment.mimeType + ' to ' + ext;
+      createErrorResponse(
+        res.status(415).json({
+          code: 415,
+          message: error,
+        })
+      );
     }
   } else {
     createErrorResponse(

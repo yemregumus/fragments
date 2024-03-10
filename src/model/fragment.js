@@ -31,10 +31,8 @@ class Fragment {
       }
       this.id = id || randomUUID();
       this.ownerId = ownerId;
-      // this.created = created || JSON.stringify(new Date());
-      this.created = created || new Date().toString();
-      // this.updated = updated || JSON.stringify(new Date());
-      this.update = updated || new Date().toString();
+      this.created = created || new Date().toISOString();
+      this.update = updated || new Date().toISOString();
       this.type = type;
       this.save();
     } else {
@@ -78,7 +76,7 @@ class Fragment {
       type: fragment.type,
       size: fragment.size,
     });
-    return Promise.resolve(newFragment);
+    return newFragment;
   }
 
   /**
@@ -95,9 +93,9 @@ class Fragment {
    * Saves the current fragment to the database
    * @returns Promise<void>
    */
-  save() {
-    this.updated = new Date().toString();
-    return writeFragment(this);
+  async save() {
+    this.updated = new Date().toISOString();
+    await writeFragment(this);
   }
 
   /**
@@ -115,9 +113,10 @@ class Fragment {
    */
   async setData(data) {
     if (Buffer.isBuffer(data)) {
-      this.updated = new Date().toString();
+      this.updated = new Date().toISOString();
       this.size = Buffer.byteLength(data);
-      return writeFragmentData(this.ownerId, this.id, data);
+      await writeFragmentData(this.ownerId, this.id, data); // Await the data write operation
+      await this.save(); // Save the updated fragment to the database
     } else {
       throw new Error(`Data is Empty!`);
     }
