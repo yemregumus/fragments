@@ -28,7 +28,7 @@ FROM nginx:1.24.0-alpine
 # Copy the built site from the build stage
 COPY --from=build /site/dist /usr/share/nginx/html
 # Expose port 80
-EXPOSE 80
+EXPOSE 8080
 # Healthcheck to verify the container is healthy
 HEALTHCHECK --interval=60s --timeout=90s --start-period=10s --retries=3 \
   CMD curl --fail localhost || exit 1
