@@ -1,10 +1,14 @@
 // src/routes/index.js
-const { authenticate } = require('../auth');
+
 const express = require('express');
-const response = require('../response.js');
+
+// Our authentication middleware
+const { authenticate } = require('../../src/authorization');
 
 // version and author from package.json
 const { version, author } = require('../../package.json');
+
+const { createSuccessResponse } = require('../../src/response');
 
 // Create a router that we can use to mount our API
 const router = express.Router();
@@ -19,15 +23,11 @@ router.use(`/v1`, authenticate(), require('./api'));
  * we'll respond with a 200 OK.  If not, the server isn't healthy.
  */
 router.get('/', (req, res) => {
-  // Client's shouldn't cache this response (always request it fresh)
   res.setHeader('Cache-Control', 'no-cache');
-  // Send a 200 'OK' response
   res.status(200).json(
-    response.createSuccessResponse({
-      status: 'ok',
+    createSuccessResponse({
       author,
-      // Use your own GitHub URL for this!
-      githubUrl: 'https://github.com/yemregumus/fragments.git',
+      githubUrl: 'https://github.com/yemregumus/fragments',
       version,
     })
   );

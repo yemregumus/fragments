@@ -1,58 +1,49 @@
 // src/routes/api/post.js
 
-const crypto = require('crypto');
 const { Fragment } = require('../../model/fragment');
+const { createSuccessResponse, createErrorResponse } = require('../../../src/response');
+const logger = require('../../logger');
+const contentType = require('content-type');
 
-const createSuccessResponse = require('../../response').createSuccessResponse;
-const createErrorResponse = require('../../response').createErrorResponse;
-
-const generateUUID = () => {
-  return crypto.randomUUID().toString('hex');
-};
-
+/**
+ * Creates a new fragment for the current user.
+ * The client posts a file (raw binary data) in the body of the request
+ * and sets the Content-Type header to the desired type of the fragment if the type is supported.
+ */
 module.exports = async (req, res) => {
+  logger.debug('Trying to add a new fragment // POST v1/fragments');
+  const { type } = contentType.parse(req);
+  const fragmentData = req.body;
+
+  // If the type of a fragment to be created is not currently supported, throw an error
+  if (!Fragment.isSupportedType(type)) {
+    logger.warn(`Unsupported type ${type} passed in POST v1/fragments`);
+    return res.status(415).json(createErrorResponse(415, `Unsupported type ${type} `));
+  }
+
   try {
-    if (Buffer.isBuffer(req.body)) {
-      const id = generateUUID();
-      const location = req.protocol + '://' + req.hostname + ':8080/v1' + req.url + '/' + id;
-      res.set({ Location: location });
+    // create a new fragment
+    const fragment = new Fragment({ ownerId: req.user, type: type });
+    logger.info({ fragment }, 'Created new fragment');
+    // save created fragment
+    await fragment.save();
+    // write fragment data
+    await fragment.setData(fragmentData);
 
-      const ownerId = crypto.createHash('sha256').update(req.user).digest('hex');
+    // If we have API_URL in environment variables, set that (+ fragment id) as a location
+    // Otherwise, use localhost (+ fragment id)
+    const location = process.env.API_URL
+      ? new URL(`${process.env.API_URL}/v1/fragments/${fragment.id}`)
+      : new URL(`http://localhost:8080/v1/fragments/${fragment.id}`);
 
-      const newFragment = new Fragment({
-        ownerId: ownerId,
-        created: new Date().toISOString(),
-        updated: new Date().toISOString(),
-        type: req.headers['content-type'],
-        size: Number(req.headers['content-length']),
-      });
+    logger.debug('Location: ' + location.href);
 
-      try {
-        await newFragment.setData(req.body);
-      } catch (error) {
-        throw new Error('Error setting fragment data: ' + error.message);
-      }
-
-      await newFragment.save();
-
-      createSuccessResponse(
-        res.status(201).json({
-          status: 'ok',
-          fragments: newFragment,
-        })
-      );
-    } else {
-      createErrorResponse(
-        res.status(415).json({
-          message: 'Invalid file type',
-        })
-      );
-    }
-  } catch (error) {
-    createErrorResponse(
-      res.status(500).json({
-        message: 'Error occurred: ' + error.message,
-      })
-    );
+    res
+      .location(location.href) // Set fragment location in response header
+      .status(201)
+      .json(createSuccessResponse({ fragment: fragment }));
+  } catch (err) {
+    logger.error(err);
+    res.status(500).json(createErrorResponse(500, err));
   }
 };

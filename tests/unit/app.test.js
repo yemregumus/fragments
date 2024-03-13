@@ -1,13 +1,13 @@
-// tests/unit/get.test.js
+// tests/unit/app.test.js
 
 const request = require('supertest');
 
+// Get our Express app object
 const app = require('../../src/app');
 
-describe('404 handler', () => {
-  // If the request is missing the Authorization header, it should be forbidden
-  test('resources that cant be found cant be found', () =>
-    request(app).get('/non-existent-route').expect(404));
-
-  // TODO: we'll need to add tests to check the contents of the fragments array later
+describe('testing 404 middleware', () => {
+  test('should return HTTP 404 response', async () => {
+    const res = await request(app).get('/undefined');
+    expect(res.statusCode).toBe(404);
+  });
 });
