@@ -41,6 +41,7 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+        
   # Lint our Dockerfile using Hadolint
   dockerfile-lint:
     name: Dockerfile Lint
