@@ -6,6 +6,7 @@
   "scripts": {
     "test:watch": "jest -c jest.config.js --runInBand --watch --",
     "test": "jest -c jest.config.js --runInBand --",
+    "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\"",
     "coverage": "jest -c jest.config.js --runInBand --coverage",
     "lint": "eslint --config .eslintrc.js src/** tests/unit/**",
     "start": "node src/index.js",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
+    "@orangeopensource/hurl": "^4.2.0",
     "babel-jest": "^29.7.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.31.0",
