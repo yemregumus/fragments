@@ -22,7 +22,6 @@ WORKDIR /app
 # files into the working dir (/app), using full paths and multiple source
 # files.  All of the files will be copied into the working dir `./app`
 COPY package.json package-lock.json ./
-COPY tests/.htpasswd /app/tests/.htpasswd
 
 
 # Install node dependencies defined in package-lock.json
