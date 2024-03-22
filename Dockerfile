@@ -23,12 +23,10 @@ WORKDIR /app
 # files.  All of the files will be copied into the working dir `./app`
 COPY package.json package-lock.json ./
 
-
+# Copy everyting
+COPY . .
 # Install node dependencies defined in package-lock.json
 RUN npm install
-
-# Copy src to /app/src/
-COPY ./src ./src
 
 # Start the container by running our server
 CMD ["npm", "start"]

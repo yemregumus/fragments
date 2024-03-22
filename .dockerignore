@@ -1,4 +1,3 @@
-!tests/.htpasswd
 .github/
 .vscode/
 coverage/
@@ -9,4 +8,5 @@ node_modules/
 .gitignore
 .prettier*
 jest*
-tests/
+tests/unit
+tests/integration
