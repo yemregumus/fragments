@@ -1,6 +1,6 @@
 // src/index.js
 
-// Read environment variables from an .env file (if present)
+// Read environment variables from an .env file
 require('dotenv').config();
 
 // We want to log any crash cases so we can debug later from logs.

@@ -1,4 +1,4 @@
-// Use crypto.randomUUID() to create unique IDs, see:
+// Use crypto.randomUUID() to create uniqueIDs, see:
 // https://nodejs.org/api/crypto.html#cryptorandomuuidoptions
 const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers

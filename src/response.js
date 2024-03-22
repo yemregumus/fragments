@@ -4,7 +4,7 @@
  * A successful response looks like:
  *
  * {
- *   "status": "ok",
+ *   "status":"ok",
  *   ...
  * }
  */

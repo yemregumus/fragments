@@ -57,5 +57,4 @@ app.use((err, req, res, next) => {
   res.status(status).json(createErrorResponse(status, message));
 });
 
-// Export our `app` so we can access it in server.js
 module.exports = app;

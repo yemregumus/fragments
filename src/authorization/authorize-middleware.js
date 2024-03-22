@@ -5,8 +5,8 @@ const hash = require('../hash');
 const logger = require('../logger');
 
 /**
- * @param {'bearer' | 'http'} strategyName - the passport strategy to use
- * @returns {Function} - the middleware function to use for authentication
+ * @param {'bearer' | 'http'} strategyName -
+ * @returns {Function}
  */
 module.exports = (strategyName) => {
   return function (req, res, next) {

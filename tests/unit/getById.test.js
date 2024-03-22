@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../../src/app');
 
 describe('GET /v1/fragments/:id', () => {
-  // User should not be able to get access to fragments without appropriate credentials
+  // User shouldn't able to get access to fragments without appropriate credentials
   test('cannot get fragment data if user does not have appropriate credentials', () =>
     request(app)
       .get('/v1/fragments/4dcc65b6-9d57-453a-bd3a-63c107a51698')

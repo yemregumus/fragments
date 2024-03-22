@@ -1,9 +1,5 @@
 // src/authorization/cognito.js
 
-// Configure a JWT token strategy for Passport based on
-// Identity Token provided by Cognito. The token will be
-// parsed from the Authorization header (i.e., Bearer Token).
-
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const authorize = require('./authorize-middleware');

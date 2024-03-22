@@ -2,7 +2,7 @@
 
 const { createErrorResponse, createSuccessResponse } = require('../../src/response');
 
-// Define (i.e., name) the set of tests we're about to do
+// Define (i.e., name) the set of tests we are about to do
 describe('API Responses', () => {
   // Write a test for calling createErrorResponse()
   test('createErrorResponse()', () => {

@@ -4,7 +4,7 @@ const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 const logger = require('../../logger');
 /**
- * Gets an authenticated user's fragment metadata with the given id
+ * Gets an authenticated users fragment metadata with the given id
  */
 module.exports = async (req, res) => {
   try {

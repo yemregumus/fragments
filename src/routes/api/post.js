@@ -6,7 +6,7 @@ const logger = require('../../logger');
 const contentType = require('content-type');
 
 /**
- * Creates a new fragment for the current user.
+ * Creates a new fragment for the user.
  * The client posts a file (raw binary data) in the body of the request
  * and sets the Content-Type header to the desired type of the fragment if the type is supported.
  */

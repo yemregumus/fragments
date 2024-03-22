@@ -6,7 +6,7 @@ const logger = require('../../logger');
 const mime = require('mime');
 const path = require('node:path');
 /**
- * Gets an authenticated user's fragment data (i.e., raw binary data) with the given id
+ * Gets an authenticated users fragment data (i.e., raw binary data) with the given id
  */
 module.exports = async (req, res) => {
   try {

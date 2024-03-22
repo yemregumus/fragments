@@ -2,7 +2,7 @@
 
 const request = require('supertest');
 
-// Get our Express app object
+// Get Express app object
 const app = require('../../src/app');
 
 describe('testing 404 middleware', () => {

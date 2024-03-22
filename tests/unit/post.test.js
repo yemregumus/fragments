@@ -5,7 +5,7 @@ const app = require('../../src/app');
 const { Fragment } = require('../../src/model/fragment');
 
 describe('POST /v1/fragments', () => {
-  // If the request is missing the Authorization header, it should be forbidden
+  // If the request is missing in the Authorization header, it should be forbidden
   test('unauthenticated requests are denied', async () => {
     const data = Buffer.from('hello');
     const res = await request(app)

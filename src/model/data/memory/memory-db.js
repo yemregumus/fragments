@@ -7,7 +7,7 @@ class MemoryDB {
   }
 
   /**
-   * Gets a value for the given primaryKey and secondaryKey
+   *Gets a value for the given primaryKey and secondaryKey
    * @param {string} primaryKey
    * @param {string} secondaryKey
    * @returns {Promise<any>}
