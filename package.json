@@ -1,7 +1,7 @@
 {
   "name": "fragments",
   "private": true,
-  "version": "0.7.7",
+  "version": "0.7.71",
   "description": "Fragments back-end API",
   "scripts": {
     "start:test": "env-cmd -f ./env.test node src/index.js",
