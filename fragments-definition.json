@@ -1,0 +1,82 @@
+{
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:689292552513:task-definition/fragments-task:6",
+  "containerDefinitions": [
+    {
+      "name": "fragments-container",
+      "image": "yemregumus/fragments:latest",
+      "cpu": 256,
+      "memoryReservation": 512,
+      "portMappings": [
+        {
+          "name": "fragments-container-8080-tcp",
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/fragments-task",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "fragments-task",
+  "taskRoleArn": "arn:aws:iam::689292552513:role/LabRole",
+  "executionRoleArn": "arn:aws:iam::689292552513:role/LabRole",
+  "networkMode": "awsvpc",
+  "revision": 6,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "placementConstraints": [],
+  "compatibilities": ["EC2", "FARGATE"],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "registeredAt": "2024-03-31T17:57:31.010Z",
+  "registeredBy": "arn:aws:sts::689292552513:assumed-role/voclabs/user3005885=Gumus,_Yunus",
+  "tags": []
+}
