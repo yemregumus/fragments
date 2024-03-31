@@ -1,6 +1,7 @@
 // src/routes/api/index.js
 
 const express = require('express');
+const logger = require('../../logger');
 
 // Create a router on which to mount our API endpoints
 const router = express.Router();
@@ -18,6 +19,7 @@ const rawBody = () =>
       // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
       // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
       const { type } = contentType.parse(req);
+      logger.debug('Type after parse: ' + type);
       return Fragment.isSupportedType(type);
     },
   });
@@ -31,5 +33,6 @@ router.post('/fragments', rawBody(), require('./post'));
 router.get('/fragments', require('./get'));
 router.get('/fragments/:id', require('./getById'));
 router.get('/fragments/:id/info', require('./getByIdInfo'));
+router.delete('/fragments/:id', require('./delete'));
 
 module.exports = router;
