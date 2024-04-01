@@ -16,7 +16,12 @@
         }
       ],
       "essential": true,
-      "environment": [],
+      "environment": [
+        {
+          "name": "AWS_S3_BUCKET_NAME",
+          "value": "yunus.gumus-fragments"
+        }
+      ],
       "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],

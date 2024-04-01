@@ -86,13 +86,6 @@ jobs:
           # Add all the necessary environment variables, using GitHub Encrypted Secrets
           # for any values that should not be checked into git directly.  Here are
           # a few to get you started, but you should fill in the rest yourself.
-          environment-variables: |
-            LOG_LEVEL=debug
-            NODE_ENV=production
-            AWS_REGION=us-east-1
-            AWS_COGNITO_POOL_ID=us-east-1_5lnVh5RrV
-            AWS_COGNITO_CLIENT_ID=5hf2thqvoer4qblvej3h8ltq8h
-            API_URL=http://localhost:8080
 
       # Deploy Amazon ECS task definition
       - name: Deploy Amazon ECS task definition
