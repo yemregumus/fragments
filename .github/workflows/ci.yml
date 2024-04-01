@@ -117,6 +117,8 @@ jobs:
         run: npm install
       - name: Build Containers
         run: docker compose up -d
+      - name: Grant execute permission to script
+        run: chmod +x ./scripts/local-aws-setup.sh
       - name: Setup Local AWS Resources
         # NOTE: this file needs to be made executable *before* you check into git:
         # $ chmod +x ./scripts/local-aws-setup.sh
