@@ -23,7 +23,6 @@ services:
       # Use the LocalStack endpoint vs. AWS for 53 AWS SDK clients.
       # NOTE: we use Docker's internal network to the localstack container
       - AWS S3 ENDPOINT URI -http://localstack:1566
-      - AWS_REGION=us-east-1
       # Use the LocalStack endpoint vs. AWS for S3 AWS SDK clients.
       # NOTE: we use Docker's internal network to the localstack container
       - AWS_S3_ENDPOINT_URL=http://localstack:4566
