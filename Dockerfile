@@ -44,8 +44,6 @@ COPY --chown=node:node ./src ./src
 # Copy our HTPASSWD file
 COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
 
-# Indicate which user is running commands before the app is run
-USER root
 
 # Start the container by running our server
 CMD ["node", ".\src\index.js"]
