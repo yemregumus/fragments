@@ -23,14 +23,23 @@ WORKDIR /app
 # files.  All of the files will be copied into the working dir `./app`
 COPY package.json package-lock.json ./
 
-# Copy everyting
-COPY . .
 # Install node dependencies defined in package-lock.json
 RUN npm install
 
+# Stage 2: Finalize the image
+FROM node:20.11.1-bullseye AS final
+
+# Set up a health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD curl -fs http://localhost:${PORT}/health || exit 1
+
+# Use /app as our working directory
+WORKDIR /app
+
+# Copy everything from the dependencies stage
+COPY --from=dependencies /app .
+
+# Expose the port defined in the environment variable
+EXPOSE ${PORT}
+
 # Start the container by running our server
-CMD ["npm", "start"]
-
-
-# We run our service on port 8080
-EXPOSE 8080
+CMD ["node", "src/index.js"]
