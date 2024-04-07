@@ -18,28 +18,41 @@ ENV NPM_CONFIG_COLOR=false
 # Use /app as our working directory
 WORKDIR /app
 
-# Option 3: explicit filenames - Copy the package.json and package-lock.json
-# files into the working dir (/app), using full paths and multiple source
-# files.  All of the files will be copied into the working dir `./app`
-COPY package.json package-lock.json ./
+# COPY <src> <dest> copies from the build context (<src>) to a path inside the image
+# Copy the package.json and package-lock.json files into the working dir (/app)
+# Change ownership to user:group (node:node)
+COPY --chown=node:node package*.json ./
 
 # Install node dependencies defined in package-lock.json
-RUN npm install
+# Replaced --> RUN npm install
+# npm ci --production will ignore dev dependencies while installing node modules
+RUN npm ci --only=production
 
-# Stage 2: Finalize the image
-FROM node:20.11.1-bullseye AS final
+#######################################################################################################################
 
-# Set up a health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD curl -fs http://localhost:${PORT}/health || exit 1
+# Stage 1: use dependencies to start the server
+FROM dependencies AS builder
 
-# Use /app as our working directory
 WORKDIR /app
 
-# Copy everything from the dependencies stage
-COPY --from=dependencies /app .
+# Copy cached node modules from previous stage so we don't have to download them again
+COPY --chown=node:node --from=dependencies /app /app
 
-# Expose the port defined in the environment variable
-EXPOSE ${PORT}
+# Copy src to /app/src/
+COPY --chown=node:node ./src ./src
+
+# Copy our HTPASSWD file
+COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
+
+# Indicate which user is running commands before the app is run
+USER node
 
 # Start the container by running our server
-CMD ["node", "src/index.js"]
+CMD ["node", "./src/index.js"]
+
+# We run our service on port 8080
+EXPOSE ${PORT}
+
+# Check the / route every 3 minutes, fail if we don't get a 200
+HEALTHCHECK --interval=3m --timeout=30s --start-period=10s --retries=3\
+  CMD curl --fail http://localhost:${PORT}/ || exit 1
