@@ -1,5 +1,5 @@
 # Stage 1: Install dependencies
-FROM node:20.11.1-bullseye AS dependencies
+FROM node:20.11.1-bullseye AS build
 
 LABEL maintainer="Yunus Emre Gumus <ygumus@myseneca.ca>"
 LABEL description="Fragments node.js microservice"
@@ -18,35 +18,25 @@ ENV NPM_CONFIG_COLOR=false
 # Use /app as our working directory
 WORKDIR /app
 
-# COPY <src> <dest> copies from the build context (<src>) to a path inside the image
-# Copy the package.json and package-lock.json files into the working dir (/app)
-# Change ownership to user:group (node:node)
-COPY --chown=node:node package*.json ./
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
 # Install node dependencies defined in package-lock.json
-# Replaced --> RUN npm install
-# npm ci --production will ignore dev dependencies while installing node modules
-RUN npm ci --only=production
+RUN npm install
 
-#######################################################################################################################
-
-# Stage 1: use dependencies to start the server
-FROM node:20.11.1-bullseye AS builder
+# Stage 2: Copy source code and run the application
+FROM node:20.11.1-bullseye AS run
 
 WORKDIR /app
 
-# Copy cached node modules from previous stage so we don't have to download them again
-COPY --chown=node:node --from=dependencies /app /app
+# Copy everything from the build stage
+COPY --from=build /app .
 
-# Copy src to /app/src/
-COPY --chown=node:node ./src ./src
-
-# Copy our HTPASSWD file
-COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
-
+# Copy the rest of the source code
+COPY . .
 
 # Start the container by running our server
-CMD ["node", ".\src\index.js"]
+CMD ["node", "src/index.js"]
 
 # We run our service on port 8080
 EXPOSE ${PORT}
