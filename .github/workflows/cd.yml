@@ -46,7 +46,9 @@ jobs:
       # Login to our ECR repository using the configured credentials
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: 'false'
 
       # Build and Push an Image to Amazon ECR
       - name: Build and push to Amazon ECR
