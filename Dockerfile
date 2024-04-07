@@ -31,7 +31,7 @@ RUN npm ci --only=production
 #######################################################################################################################
 
 # Stage 1: use dependencies to start the server
-FROM dependencies AS builder
+FROM node:20.11.1-bullseye AS builder
 
 WORKDIR /app
 
