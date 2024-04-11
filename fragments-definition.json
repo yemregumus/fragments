@@ -24,6 +24,10 @@
         {
           "name": "AWS_DYNAMODB_TABLE_NAME",
           "value": "fragments"
+        },
+        {
+          "name": "API_URL",
+          "value": "http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80"
         }
       ],
       "environmentFiles": [],
