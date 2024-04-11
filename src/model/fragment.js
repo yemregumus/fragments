@@ -145,7 +145,18 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    const formats = ['text/plain', 'application/json'];
+    const formats = [
+      'text/plain',
+      'text/plain; charset=utf-8',
+      'text/markdown',
+      'text/html',
+      'application/json',
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/gif',
+    ];
+
     return formats;
   }
 
