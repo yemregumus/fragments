@@ -32,6 +32,7 @@ module.exports = async (req, res) => {
 
     // If we have API_URL in environment variables, set that (+ fragment id) as a location
     // Otherwise, use localhost (+ fragment id)
+    // location header changed
     const location = process.env.API_URL
       ? new URL(`${process.env.API_URL}/v1/fragments/${fragment.id}`)
       : new URL(

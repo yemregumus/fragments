@@ -99,6 +99,7 @@ describe('POST /v1/fragments', () => {
   });
 
   // Make sure that appropriate Location is being sent in a header
+  // location header expectation changed
   test('Location header is returned as expected', async () => {
     const data = Buffer.from('hello');
     const res = await request(app)
