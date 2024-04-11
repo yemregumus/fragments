@@ -32,14 +32,12 @@ module.exports = async (req, res) => {
 
     // If we have API_URL in environment variables, set that (+ fragment id) as a location
     // Otherwise, use localhost (+ fragment id)
-    // This is useful for testing the API locally
     const location = process.env.API_URL
       ? new URL(`${process.env.API_URL}/v1/fragments/${fragment.id}`)
-      : new URL(
-          `http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments/${fragment.id}`
-        );
+      : new URL(`http://localhost:8080/v1/fragments/${fragment.id}`);
 
     logger.debug('Location: ' + location.href);
+    console.log('Location: ' + location.href);
 
     res
       .location(location.href) // Set fragment location in response header
