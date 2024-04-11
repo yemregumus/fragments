@@ -1,5 +1,5 @@
 # Authenticated POST to /v1/fragments
-POST http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+POST http://localhost:8080/v1/fragments
 
 # We're sending a JSON fragment
 Content-Type: application/json
@@ -34,7 +34,7 @@ jsonpath "$.fragment.id" == "{{fragment1_id}}"
 jsonpath "$.fragment.type" == "application/json"
 
 # 3. Authenticated POST to /v1/fragments (2nd fragment)
-POST http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+POST http://localhost:8080/v1/fragments
 
 # We're sending markdown fragment
 Content-Type: text/markdown
@@ -69,7 +69,7 @@ jsonpath "$.fragment.id" == "{{fragment2_id}}"
 jsonpath "$.fragment.type" == "text/markdown"
 
 # 5. GET the list of fragments for the same authorized user without expanding them
-GET http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+GET http://localhost:8080/v1/fragments
 
 # Include HTTP Basic Auth credentials
 [BasicAuth]
@@ -100,7 +100,7 @@ user1@email.com:password1
 HTTP/1.1 404
 
 # 8. GET the list of fragments for the authorized, confirm that the first id is NOT included but that the second id is
-GET http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+GET http://localhost:8080/v1/fragments
 
 # Include HTTP Basic Auth credentials
 [BasicAuth]

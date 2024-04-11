@@ -1,6 +1,6 @@
 # Authenticated POST to /v1/fragments
 # Fragment type is: text/plain; charset=utf-8
-POST http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+POST http://localhost:8080/v1/fragments
 
 # We're sending a plain text fragment
 Content-Type: text/plain; charset=utf-8
@@ -20,7 +20,7 @@ HTTP/1.1 201
 # We have various assertions about the response that we want to check
 [Asserts]
 # The Location header should look like what we expect (including the fragment id)
-header "Location" matches "^http:\/\/fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80\/v1\/fragments\/[A-Za-z0-9_-]+$"
+header "Location" matches "^http:\/\/localhost:8080\/v1\/fragments\/[A-Za-z0-9_-]+$"
 jsonpath "$.status" == "ok"
 # Our fragment ids use UUIDs, see https://ihateregex.io/expr/uuid/
 jsonpath "$.fragment.id" matches "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"

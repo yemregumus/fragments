@@ -1,5 +1,5 @@
-# 404 check
-GET http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/no-such-route
+# 404 Test
+GET http://localhost:8080/no-route
 
-# We should get back an HTTP 1.1 404 response
+# We should get back an HTTP 1.1 200 response
 HTTP/1.1 404

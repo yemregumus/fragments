@@ -1,5 +1,5 @@
 # Authenticated POST to /v1/fragments
-POST http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments
+POST http://localhost:8080/v1/fragments
 
 # We're sending unsupported content-type
 Content-Type: video/avi
