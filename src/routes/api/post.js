@@ -4,6 +4,7 @@ const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../../src/response');
 const logger = require('../../logger');
 const contentType = require('content-type');
+const { URL } = require('url');
 
 /**
  * Creates a new fragment for the user.
@@ -28,16 +29,21 @@ module.exports = async (req, res) => {
     // save created fragment
     await fragment.save();
     // write fragment data
-    await fragment.setData(fragmentData);
+    await fragment.setData(fragmentData, type);
 
     // If we have API_URL in environment variables, set that (+ fragment id) as a location
     // Otherwise, use localhost (+ fragment id)
     // location header changed
-    const location = process.env.API_URL
+    /*const location = process.env.API_URL
       ? new URL(`${process.env.API_URL}/v1/fragments/${fragment.id}`)
       : new URL(
           `http://fragments-lb-364360123.us-east-1.elb.amazonaws.com:80/v1/fragments/${fragment.id}`
-        );
+        );*/
+    // Dynamically construct the fragment location URL based on the request protocol, host, and fragment ID
+    const location = new URL(
+      `/v1/fragments/${fragment.id}`,
+      req.protocol + '://' + req.get('host')
+    );
 
     logger.debug('Location: ' + location.href);
     console.log('Location: ' + location.href);

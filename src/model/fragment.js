@@ -113,9 +113,10 @@ class Fragment {
    * @param {Buffer} data
    * @returns Promise<void>
    */
-  async setData(data) {
+  async setData(data, type) {
     this.updated = new Date().toISOString();
     this.size = Buffer.byteLength(data);
+    this.type = type;
     this.save(); // saving updated metadata, so that db gets updated
     return writeFragmentData(this.ownerId, this.id, data);
   }

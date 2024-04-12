@@ -12,7 +12,7 @@ const logger = require('../../logger');
  */
 module.exports = async (req, res) => {
   logger.debug('Trying to update a fragment // PUT v1/fragments/:id');
-  //const { type } = contentType.parse(req);
+  const contentType = req.headers['content-type'];
   const fragmentData = req.body;
 
   // If the type of new fragment data does not match current fragment's data type, throw an error
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     }*/
     logger.info('Updating fragment data');
     // overwrite fragment data and save updates
-    await fragment.setData(fragmentData);
+    await fragment.setData(fragmentData, contentType);
     await fragment.save();
     res.status(200).json(createSuccessResponse({ fragment: fragment }));
   } catch (err) {
