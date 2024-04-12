@@ -1,5 +1,4 @@
 const { Fragment } = require('../../src/model/fragment');
-const MarkdownIt = require('markdown-it');
 
 // Wait for a certain number of ms.Returns a Promise.
 const wait = async (ms = 1000) => new Promise((resolve) => setTimeout(resolve, ms));
