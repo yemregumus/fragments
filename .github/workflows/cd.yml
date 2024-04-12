@@ -94,7 +94,7 @@ jobs:
             AWS_REGION=us-east-1
             AWS_COGNITO_POOL_ID=us-east-1_5lnVh5RrV
             AWS_COGNITO_CLIENT_ID=5hf2thqvoer4qblvej3h8ltq8h
-            API_URL=http://localhost:8080
+            API_URL=http://fragments-lb-364360123.us-east-1.elb.amazonaws.com:80
 
       # Deploy Amazon ECS task definition
       - name: Deploy Amazon ECS task definition

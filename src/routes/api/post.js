@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     const location = process.env.API_URL
       ? new URL(`${process.env.API_URL}/v1/fragments/${fragment.id}`)
       : new URL(
-          `http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80/v1/fragments/${fragment.id}`
+          `http://fragments-lb-364360123.us-east-1.elb.amazonaws.com:80/v1/fragments/${fragment.id}`
         );
 
     logger.debug('Location: ' + location.href);

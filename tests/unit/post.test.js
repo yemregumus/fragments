@@ -108,7 +108,7 @@ describe('POST /v1/fragments', () => {
       .send(data)
       .auth('user1@email.com', 'password1');
     expect(res.header['location']).toBe(
-      'http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com/v1/fragments/' +
+      'http://fragments-lb-364360123.us-east-1.elb.amazonaws.com/v1/fragments/' +
         res.body.fragment.id
     );
   });
