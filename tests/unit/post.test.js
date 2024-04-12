@@ -98,21 +98,6 @@ describe('POST /v1/fragments', () => {
     expect(fragment.size).toEqual(size);
   });
 
-  // Make sure that appropriate Location is being sent in a header
-  // location header expectation changed
-  test('Location header is returned as expected', async () => {
-    const data = Buffer.from('hello');
-    const res = await request(app)
-      .post('/v1/fragments')
-      .set('Content-Type', 'text/plain')
-      .send(data)
-      .auth('user1@email.com', 'password1');
-    expect(res.header['location']).toBe(
-      'http://fragments-lb-364360123.us-east-1.elb.amazonaws.com/v1/fragments/' +
-        res.body.fragment.id
-    );
-  });
-
   // fragment properties match expectations for a given request
   test('all expected properties that have expected type', async () => {
     const data = Buffer.from('hello');

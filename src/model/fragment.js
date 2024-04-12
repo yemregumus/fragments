@@ -114,11 +114,26 @@ class Fragment {
    * @returns Promise<void>
    */
   async setData(data, type) {
-    this.updated = new Date().toISOString();
-    this.size = Buffer.byteLength(data);
-    this.type = type;
-    this.save(); // saving updated metadata, so that db gets updated
-    return writeFragmentData(this.ownerId, this.id, data);
+    try {
+      // Update the date of the latest update of a fragment
+      this.updated = new Date().toISOString();
+
+      // Update the size of the fragment
+      this.size = Buffer.byteLength(data);
+
+      // Update the type of the fragment
+      this.type = type;
+
+      // Save the updated metadata, so that the database gets updated
+      await this.save();
+
+      // Write the fragment data to the database
+      return writeFragmentData(this.ownerId, this.id, data);
+    } catch (error) {
+      // Handle any errors that occur during the process
+      console.error('Error setting data for fragment:', error);
+      throw error; // Re-throw the error to propagate it up
+    }
   }
 
   /**

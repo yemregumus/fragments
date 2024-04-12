@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
       : new URL(
           `http://fragments-lb-364360123.us-east-1.elb.amazonaws.com:80/v1/fragments/${fragment.id}`
         );*/
+
     // Dynamically construct the fragment location URL based on the request protocol, host, and fragment ID
     const location = new URL(
       `/v1/fragments/${fragment.id}`,
