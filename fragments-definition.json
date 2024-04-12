@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:689292552513:task-definition/fragments-task:6",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:689292552513:task-definition/fragments-task:25",
   "containerDefinitions": [
     {
       "name": "fragments-container",
@@ -8,9 +8,9 @@
       "memoryReservation": 512,
       "portMappings": [
         {
-          "name": "fragments-container-8080-tcp",
-          "containerPort": 8080,
-          "hostPort": 8080,
+          "name": "fragments-container-80-tcp",
+          "containerPort": 80,
+          "hostPort": 80,
           "protocol": "tcp",
           "appProtocol": "http"
         }
@@ -18,16 +18,40 @@
       "essential": true,
       "environment": [
         {
+          "name": "AWS_COGNITO_POOL_ID",
+          "value": "us-east-1_5lnVh5RrV"
+        },
+        {
+          "name": "API_URL",
+          "value": "http://localhost:8080"
+        },
+        {
+          "name": "PORT",
+          "value": "80"
+        },
+        {
+          "name": "HTPASSWD_FILE",
+          "value": "tests/.htpasswd"
+        },
+        {
+          "name": "AWS_S3_ENDPOINT_URL",
+          "value": "http://localhost:4566"
+        },
+        {
+          "name": "LOG_LEVEL",
+          "value": "debug"
+        },
+        {
+          "name": "AWS_COGNITO_CLIENT_ID",
+          "value": "5hf2thqvoer4qblvej3h8ltq8h"
+        },
+        {
           "name": "AWS_S3_BUCKET_NAME",
           "value": "yunus.gumus-fragments"
         },
         {
           "name": "AWS_DYNAMODB_TABLE_NAME",
           "value": "fragments"
-        },
-        {
-          "name": "API_URL",
-          "value": "http://fragments-lb-1440859714.us-east-1.elb.amazonaws.com:80"
         }
       ],
       "environmentFiles": [],
@@ -51,7 +75,7 @@
   "taskRoleArn": "arn:aws:iam::689292552513:role/LabRole",
   "executionRoleArn": "arn:aws:iam::689292552513:role/LabRole",
   "networkMode": "awsvpc",
-  "revision": 6,
+  "revision": 25,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -89,7 +113,7 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-03-31T17:57:31.010Z",
+  "registeredAt": "2024-04-12T00:24:21.938Z",
   "registeredBy": "arn:aws:sts::689292552513:assumed-role/voclabs/user3005885=Gumus,_Yunus",
   "tags": []
 }
