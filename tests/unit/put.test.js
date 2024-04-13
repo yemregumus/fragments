@@ -25,6 +25,23 @@ describe('PUT /v1/fragments', () => {
       .expect(404);
   });
 
+  test('attempt to change content-type while updating fragment data will fail', async () => {
+    const data = Buffer.from('hello');
+    const postReq = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/plain')
+      .send(data)
+      .expect(201);
+
+    await request(app)
+      .put(`/v1/fragments/${postReq.body.fragment.id}`)
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'image/jpeg')
+      .send('updating it')
+      .expect(400);
+  });
+
   test("authenticated user can update fragment's current data with new data of the same content-type", async () => {
     const data = Buffer.from('hello');
     const postReq = await request(app)
@@ -38,28 +55,6 @@ describe('PUT /v1/fragments', () => {
       .put(`/v1/fragments/${postReq.body.fragment.id}`)
       .auth('user1@email.com', 'password1')
       .set('Content-Type', 'text/plain')
-      .send('updating it');
-
-    expect(res.statusCode).toBe(200);
-
-    // Get new fragment metadata and make sure that size of new fragment data is the size of updated data
-    const fragment = await Fragment.byId(res.body.fragment.ownerId, res.body.fragment.id);
-    expect(fragment.size).toEqual(11);
-  });
-
-  test("authenticated user can update fragment's type with new content-type", async () => {
-    const data = Buffer.from('hello');
-    const postReq = await request(app)
-      .post('/v1/fragments')
-      .auth('user1@email.com', 'password1')
-      .set('Content-Type', 'text/plain')
-      .send(data)
-      .expect(201);
-
-    const res = await request(app)
-      .put(`/v1/fragments/${postReq.body.fragment.id}`)
-      .auth('user1@email.com', 'password1')
-      .set('Content-Type', 'application/json')
       .send('updating it');
 
     expect(res.statusCode).toBe(200);

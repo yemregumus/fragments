@@ -113,27 +113,11 @@ class Fragment {
    * @param {Buffer} data
    * @returns Promise<void>
    */
-  async setData(data, type) {
-    try {
-      // Update the date of the latest update of a fragment
-      this.updated = new Date().toISOString();
-
-      // Update the size of the fragment
-      this.size = Buffer.byteLength(data);
-
-      // Update the type of the fragment
-      this.type = type;
-
-      // Save the updated metadata, so that the database gets updated
-      await this.save();
-
-      // Write the fragment data to the database
-      return writeFragmentData(this.ownerId, this.id, data);
-    } catch (error) {
-      // Handle any errors that occur during the process
-      console.error('Error setting data for fragment:', error);
-      throw error; // Re-throw the error to propagate it up
-    }
+  async setData(data) {
+    this.updated = new Date().toISOString();
+    this.size = Buffer.byteLength(data);
+    this.save(); // saving updated metadata, so that db gets updated
+    return writeFragmentData(this.ownerId, this.id, data);
   }
 
   /**
@@ -161,18 +145,7 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    const formats = [
-      'text/plain',
-      'text/plain; charset=utf-8',
-      'text/markdown',
-      'text/html',
-      'application/json',
-      'image/jpeg',
-      'image/png',
-      'image/webp',
-      'image/gif',
-    ];
-
+    const formats = ['text/plain', 'application/json'];
     return formats;
   }
 
