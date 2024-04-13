@@ -1,9 +1,9 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:689292552513:task-definition/fragments-task:32",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:689292552513:task-definition/fragmentsTask:1",
   "containerDefinitions": [
     {
       "name": "fragments-container",
-      "image": "689292552513.dkr.ecr.us-east-1.amazonaws.com/fragments:v0.13.2",
+      "image": "yemregumus/fragments:latest",
       "cpu": 256,
       "memoryReservation": 512,
       "portMappings": [
@@ -27,7 +27,7 @@
         },
         {
           "name": "API_URL",
-          "value": "http://fragments-lb-364360123.us-east-1.elb.amazonaws.com:80"
+          "value": "http://localhost:8080"
         },
         {
           "name": "PORT",
@@ -62,25 +62,28 @@
           "value": "5hf2thqvoer4qblvej3h8ltq8h"
         }
       ],
+      "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],
+      "ulimits": [],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
           "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/fragments-task",
+          "awslogs-group": "/ecs/fragmentsTask",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
-        }
+        },
+        "secretOptions": []
       },
       "systemControls": []
     }
   ],
-  "family": "fragments-task",
+  "family": "fragmentsTask",
   "taskRoleArn": "arn:aws:iam::689292552513:role/LabRole",
   "executionRoleArn": "arn:aws:iam::689292552513:role/LabRole",
   "networkMode": "awsvpc",
-  "revision": 32,
+  "revision": 1,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
@@ -91,9 +94,6 @@
       "name": "ecs.capability.execution-role-awslogs"
     },
     {
-      "name": "com.amazonaws.ecs.capability.ecr-auth"
-    },
-    {
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
     },
     {
@@ -101,9 +101,6 @@
     },
     {
       "name": "com.amazonaws.ecs.capability.task-iam-role"
-    },
-    {
-      "name": "ecs.capability.execution-role-ecr-pull"
     },
     {
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
@@ -124,7 +121,7 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2024-04-12T21:05:39.152Z",
+  "registeredAt": "2024-04-13T00:47:59.369Z",
   "registeredBy": "arn:aws:sts::689292552513:assumed-role/voclabs/user3005885=Gumus,_Yunus",
   "tags": []
 }
