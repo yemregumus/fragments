@@ -1,83 +1,41 @@
-# Fragments Back-End Microservice
+Introductory AWS Cloud Project
 
-This is the Fragments back-end microservice project. This project serves as the foundation for my work in the upcoming weeks. Below instructions to set up development environment, run the server, and leverage various scripts.
+Description
+This microservice project is engineered to efficiently store, retrieve, and manage diverse data fragments through APIs, facilitating seamless integration with IoT devices in industrial environments. The service utilizes AWS Cognito for robust authentication, ensuring secure interactions between authorized devices and users. The CI/CD pipeline is meticulously designed to automate comprehensive testing and ensure seamless, reliable deployment.
 
-### Software to Install
+The Continuous Integration (CI) workflow is initiated upon commits being pushed to GitHub. The CI pipeline encompasses a series of rigorous jobs, including executing all unit and integration tests, and performing lint checks across the codebase to enforce stringent coding standards. Following the successful completion of these checks, the Docker container is built and subsequently pushed to DockerHub, ensuring that only validated code is deployed.
 
-I had to make sure to have the following software installed and working on my development machine:
+The Continuous Deployment (CD) workflow is activated when a new version tag is pushed to GitHub. This workflow involves building the latest code and pushing the resulting image to Amazon ECR. Utilizing GitHub secrets, AWS credentials are securely configured to log into Amazon ECR. The workflow updates the ECS task definition with the newly built image ID, and the updated task definition is deployed to Amazon ECS. This process guarantees that the service operates with the latest version, configured with the appropriate environment variables for production deployment.
 
-- Node.js (LTS version)
-- VSCode with the following extensions:
-  - ESLint
-  - Prettier - Code Formatter
-  - Code Spell Checker
-- Git CLI
-- Curl
-- WSL2 and Windows Terminal (for Windows)
+System Architecture
+![image](https://github.com/user-attachments/assets/d37b0ee3-e281-4d18-9429-b01daf7b968a)
+![image](https://github.com/user-attachments/assets/2164cbfb-df85-4415-8420-89b5bca4715f)
 
-### API Server Setup
 
-1. I created a private GitHub repo named `fragments`.
-2. I cloned `fragments` repo to my local machine.
-3. Then navigated to the cloned repo: `cd fragments`.
+System Architecture
 
-### NPM Setup
+List of APIs
+Note: All the requests should have the authorization token in the Header.
 
-4. Initialize the project as an npm project: `npm init -y`.
-5. Open the project in VSCode: `code .`.
-6. Modify the `package.json` file as described in the instructions.
-7. Run `npm install` to validate and install dependencies.
-8. Commit the changes to git: `git add package.json package-lock.json` and `git commit -m "Initial npm setup"`.
+GET
+/v1/fragments: Get an array of fragments stored by the user.
+/v1/fragments/:id: Get the fragment stored using its id.
+/v1/fragments/:id.ext: Get the fragment stored using its id converted in the required and supported type.
+/v1/fragments/:id/info: Get the metadata of the fragmented using its id.
+POST
+/v1/fragments: Store a new fragment.
+Requirements: The header should have a Content Type property, the value of which would be the type of the fragment the user intends to store.
+Returns: Once the fragment is stored successfully, this request returns a location property in the response. This property includes a URL which can be used to access the stored fragment.
+PUT
+/v1/fragments/:id: Update an existing fragment.
+Note: Type of the fragment cannot be updated once its created.
 
-### Prettier Setup
+DELETE
+/v1/fragments/:id: Update an existing fragment.
+How to run the project
+Clone this repository and install all the dependencies using npm install.
 
-9. Install Prettier as a Development Dependency: `npm install --save-dev --save-exact prettier`.
-10. Create `.prettierrc` and `.prettierignore` files as described in the instructions.
-11. Install the Prettier - Code Formatter VSCode Extension.
-12. Create a `.vscode/settings.json` file with the provided settings.
-13. Commit the changes to git: `git add .prettierrc .prettierignore .vscode/settings.json` and `git commit -m "Add prettier"`.
-
-### ESLint Setup
-
-14. Install ESLint: `npm install --save-dev eslint`.
-15. Run `npx eslint --init` and configure ESLint as described in the instructions.
-16. Install the ESLint VSCode Extension.
-17. Add a lint script to `package.json`.
-18. Run ESLint and commit the changes to git: `git add .eslintrc.js package-lock.json package.json` and `git commit -m "Add eslint"`.
-
-### Structured Logging and Pino Setup
-
-19. Create a `src/logger.js` file with the provided content.
-20. Run `git add src/logger.js` and `git commit -m "Add pino logger"`.
-
-### Express App Setup
-
-21. Install required packages for Express: `npm install --save express cors helmet compression`.
-22. Create a `src/app.js` file with the provided content.
-23. Run `git add src/app.js` and `git commit -m "Initial work on express app"`.
-
-### Express Server Setup
-
-24. Install the `stoppable` package: `npm install --save stoppable`.
-25. Create a `src/server.js` file with the provided content.
-26. Run `git add src/server.js` and `git commit -m "Initial work on express server"`.
-
----
-
-## NPM Scripts
-
-Run ESLint to check for code style and potential issues:
-
-npm run lint
-
-Run the server in production mode:
-
-npm start
-
-Run the server with nodemon, watching for changes:
-
+Start the server in dev mode
 npm run dev
-
-Run the server with nodemon and enable the Node.js inspector on port 9229:
-
-npm run debug
+Start the server in prod mode
+npm start
