@@ -15,27 +15,46 @@ System Architecture
 System Architecture
 
 List of APIs
+
 Note: All the requests should have the authorization token in the Header.
 
+
 GET
+
 /v1/fragments: Get an array of fragments stored by the user.
+
 /v1/fragments/:id: Get the fragment stored using its id.
+
 /v1/fragments/:id.ext: Get the fragment stored using its id converted in the required and supported type.
+
 /v1/fragments/:id/info: Get the metadata of the fragmented using its id.
+
 POST
+
 /v1/fragments: Store a new fragment.
+
 Requirements: The header should have a Content Type property, the value of which would be the type of the fragment the user intends to store.
+
 Returns: Once the fragment is stored successfully, this request returns a location property in the response. This property includes a URL which can be used to access the stored fragment.
+
 PUT
+
 /v1/fragments/:id: Update an existing fragment.
+
 Note: Type of the fragment cannot be updated once its created.
 
 DELETE
+
 /v1/fragments/:id: Update an existing fragment.
+
 How to run the project
+
 Clone this repository and install all the dependencies using npm install.
 
 Start the server in dev mode
+
 npm run dev
+
 Start the server in prod mode
+
 npm start
