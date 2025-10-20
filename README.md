@@ -1,3 +1,9 @@
+Fragments Microservice
+
+Developed a Node.js + AWS microservice for storing/retrieving text and image fragments.
+
+Implemented authentication (AWS Cognito, JWT) and automated deployments with Docker.
+
 Introductory AWS Cloud Project
 
 Description
